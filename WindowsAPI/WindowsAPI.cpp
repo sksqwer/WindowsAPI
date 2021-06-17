@@ -1,8 +1,12 @@
 ﻿// WindowsAPI.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 //
 
+#define _USE_MATH_DEFINES
+
 #include "framework.h"
 #include "WindowsAPI.h"
+#include <tchar.h>
+#include <cmath>
 
 #define MAX_LOADSTRING 100
 
@@ -17,6 +21,11 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
+//Custom Function
+void DrawGrid(HDC, const RECT &, int);
+void DrawCircle(HDC, const FLOAT, const FLOAT, const FLOAT);
+void CircletoCircle(HDC, const FLOAT, const FLOAT, const FLOAT, const int);
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -26,6 +35,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: 여기에 코드를 입력합니다.
+	
 
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -64,7 +74,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
-    WNDCLASSEXW wcex;
+    WNDCLASSEXW wcex; // 윈도우 클래스 타입 구조체 WNDCLASSEXW
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 
@@ -123,6 +133,14 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	const int str_size = 1000;
+	RECT rect;
+	static bool bKeyDown = false;
+	static TCHAR str[str_size];
+	static int count = 0, pre;
+	static int pos_x = 0, pos_y = 0;
+	static SIZE size;
+
     switch (message)
     {
     case WM_COMMAND:
@@ -142,15 +160,108 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
+	case WM_CREATE:
+		{
+			int breakPoint = 999;
+
+			CreateCaret(hWnd, NULL, 15, 15);
+			ShowCaret(hWnd);
+		}
+		break;
+	case WM_KEYDOWN:
+		{
+
+		}
+		break;
+	case WM_CHAR:
+		{
+
+			pre = count;
+			bKeyDown = true;
+			if (wParam == VK_BACK && count > 0)
+				count--;
+			else if (wParam != VK_BACK && count < str_size)
+				str[count++] = wParam;
+			/*else if (wParam == VK_RETURN)
+			{
+				if (count == str_size - 1) break;
+				str[count++] = '\n';
+				str[count] = NULL;
+			}*/
+			/*else
+			{
+				if (count == str_size - 1) break;
+				str[count++] = wParam;
+				str[count] = NULL;
+			}*/
+			str[count] = NULL;
+
+			InvalidateRect(hWnd, NULL, true);
+
+			//HDC hdc = GetDC(hWnd);
+			//TextOut(hdc, 0, 0, str, _tcslen(str));
+			//TextOut(hdc, 0, 0, _T("wm_char"), _tcslen(_T("wm_char")));
+//			ReleaseDC(hWnd, hdc);
+			
+		}
+		break;
+	case WM_KEYUP:
+	{
+		/*for(int i = pre; i < count; i++)
+			str[i] = ' ';*/
+	}
+		break;
     case WM_PAINT:
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+/*GetDC 사용
+			HDC hdc2 = GetDC(hWnd);
+
+			ReleaseDC(hWnd, hdc2);
+*/
+			//Text 출력
+			/*TextOut(hdc, 100, 100, _T("Hello World!"), _tcslen(_T("Hello World")));
+
+			rect.left = 50;
+			rect.top = 50;
+			rect.right = 200;
+			rect.bottom = 120;
+			SetTextColor(hdc, RGB(255, 0, 0));
+			DrawText(hdc, _T("Hello Wolrd"), _tcslen(_T("Hello World")), &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+*/
+			SetTextColor(hdc, RGB(0, 0, 0));
+			//키 입력 출력
+/*			if (bKeyDown)
+			{
+				RECT rt = { 0,0,400,400 };
+				DrawText(hdc, str, _tcslen(str), &rt, DT_TOP | DT_LEFT);
+			}*/
+//				TextOut(hdc, pos_x, pos_y, str, _tcslen(str));
+			
+			//Caret
+			GetTextExtentPoint(hdc, str, _tcslen(str), &size);
+			TextOut(hdc, 0, 0, str, _tcslen(str));
+			SetCaretPos(size.cx, 0);
+
+			//격자출력
+			RECT rt = { 50,50,450,450 };
+			DrawGrid(hdc, rt, 10);
+
+			//원출력
+			DrawCircle(hdc, 600, 600, 100);
+
+			//원-원 출력
+			CircletoCircle(hdc, 200, 200, 100, 36);
+
             EndPaint(hWnd, &ps);
+			
         }
         break;
     case WM_DESTROY:
+		HideCaret(hWnd);
+		DestroyCaret();
         PostQuitMessage(0);
         break;
     default:
@@ -177,4 +288,73 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     }
     return (INT_PTR)FALSE;
+}
+
+
+
+void DrawGrid(HDC hdc, const RECT & rt, int rc)
+{
+	LONG dif = (rt.right - rt.left) / rc;
+	RECT r = rt;
+
+	for (int i = 0; i < rc + 1 ; i++)
+	{
+		MoveToEx(hdc, r.left, r.top, NULL);
+		LineTo(hdc, r.left, r.bottom+1);
+		r.left += dif;
+	}
+
+	r = rt;
+	for (int i = 0; i < rc + 1; i++)
+	{
+		MoveToEx(hdc, r.left, r.top, NULL);
+		LineTo(hdc, r.right, r.top);
+		r.top += dif;
+	}
+
+}
+
+void DrawCircle(HDC hdc, const FLOAT x, const FLOAT y, const FLOAT r)
+{
+
+	Ellipse(hdc, x - r, y - r, x + r, y + r);
+}
+
+void CircletoCircle(HDC hdc, const FLOAT x, const FLOAT y, const FLOAT R, const int n)
+{
+	if (n < 3) return;
+	DrawCircle(hdc, x, y, R);
+
+	FLOAT radian = 2 * M_PI / n;
+	FLOAT r = FLOAT((R * sin(radian / 2.0))) / FLOAT((1.0 - sin(radian / 2.0)));
+
+	FLOAT sx, sy;
+
+	for (int i = 0; i < n; i++)
+	{
+		sx = sin(radian * FLOAT(i)) * (FLOAT(R) + r);
+		sy = cos(radian * FLOAT(i)) * (FLOAT(R) + r);
+
+		DrawCircle(hdc, (FLOAT)x + sx, (FLOAT)y - sy, r);
+	}
+
+/*
+	if (n % 2)
+	{
+
+	}
+	else
+	{
+		for (int i = 0; i < n / 2; i++)
+		{
+			sx = sin(radian * FLOAT(i)) * (FLOAT(R) + r);
+			sy = cos(radian * FLOAT(i)) * (FLOAT(R) + r);
+
+			DrawCircle(hdc, (FLOAT)x + sx, (FLOAT)y - sy, r);
+			DrawCircle(hdc, (FLOAT)x - sx, (FLOAT)y + sy, r);
+		}
+	}
+*/
+
+
 }
