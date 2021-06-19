@@ -24,7 +24,11 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 //Custom Function
 void DrawGrid(HDC, const RECT &, int);
 void DrawCircle(HDC, const FLOAT, const FLOAT, const FLOAT);
-void CircletoCircle(HDC, const FLOAT, const FLOAT, const FLOAT, const int);
+void DrawSunflower(HDC, const FLOAT, const FLOAT, const FLOAT, const int);
+void DrawRectangle(HDC, const RECT&);
+void DrawInputText(HDC, RECT, TCHAR[]);
+void DrawStar(HDC, const POINT &, const int );
+void Reaction_Key(HDC, const int);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -140,6 +144,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	static int count = 0, pre;
 	static int pos_x = 0, pos_y = 0;
 	static SIZE size;
+	static int direction_Key = 0;
 
     switch (message)
     {
@@ -164,44 +169,51 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			int breakPoint = 999;
 
-			CreateCaret(hWnd, NULL, 15, 15);
-			ShowCaret(hWnd);
+//			CreateCaret(hWnd, NULL, 15, 15);
+//			ShowCaret(hWnd);
 		}
 		break;
 	case WM_KEYDOWN:
 		{
 
+		if (wParam == VK_UP)
+			direction_Key = 1;
+		else if (wParam == VK_LEFT)
+			direction_Key = 2;
+		else if (wParam == VK_RIGHT)
+			direction_Key = 3;
+		else if (wParam == VK_DOWN)
+			direction_Key = 4;
+		else
+			direction_Key = 0;
+
+		InvalidateRect(hWnd, NULL, true);
+
 		}
 		break;
 	case WM_CHAR:
 		{
-
-			pre = count;
+			/*pre = count;
 			bKeyDown = true;
 			if (wParam == VK_BACK && count > 0)
 				count--;
 			else if (wParam != VK_BACK && count < str_size)
 				str[count++] = wParam;
-			/*else if (wParam == VK_RETURN)
+			else if (wParam == VK_RETURN)
 			{
 				if (count == str_size - 1) break;
 				str[count++] = '\n';
 				str[count] = NULL;
-			}*/
-			/*else
+			}
+			else
 			{
 				if (count == str_size - 1) break;
 				str[count++] = wParam;
 				str[count] = NULL;
-			}*/
-			str[count] = NULL;
+			}
+			str[count] = NULL;*/
 
-			InvalidateRect(hWnd, NULL, true);
 
-			//HDC hdc = GetDC(hWnd);
-			//TextOut(hdc, 0, 0, str, _tcslen(str));
-			//TextOut(hdc, 0, 0, _T("wm_char"), _tcslen(_T("wm_char")));
-//			ReleaseDC(hWnd, hdc);
 			
 		}
 		break;
@@ -209,6 +221,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		/*for(int i = pre; i < count; i++)
 			str[i] = ' ';*/
+		direction_Key = 0;
+		InvalidateRect(hWnd, NULL, true);
 	}
 		break;
     case WM_PAINT:
@@ -231,7 +245,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			SetTextColor(hdc, RGB(255, 0, 0));
 			DrawText(hdc, _T("Hello Wolrd"), _tcslen(_T("Hello World")), &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
 */
-			SetTextColor(hdc, RGB(0, 0, 0));
+//			SetTextColor(hdc, RGB(0, 0, 0));
 			//키 입력 출력
 /*			if (bKeyDown)
 			{
@@ -241,22 +255,55 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 //				TextOut(hdc, pos_x, pos_y, str, _tcslen(str));
 			
 			//Caret
-			GetTextExtentPoint(hdc, str, _tcslen(str), &size);
+			/*GetTextExtentPoint(hdc, str, _tcslen(str), &size);
 			TextOut(hdc, 0, 0, str, _tcslen(str));
-			SetCaretPos(size.cx, 0);
+			SetCaretPos(size.cx, 0);*/
 
 			//격자출력
-			RECT rt = { 50,50,450,450 };
-			DrawGrid(hdc, rt, 10);
+/*			RECT rt = { 50,50,250,250 };
+			DrawGrid(hdc, rt, 10);*/
 
-			//원출력
-			DrawCircle(hdc, 600, 600, 100);
+			////원출력
+			//DrawCircle(hdc, 600, 600, 100);
 
 			//원-원 출력
-			CircletoCircle(hdc, 200, 200, 100, 36);
+//			DrawSunflower(hdc, 400, 400, 100, 36);
+
+			//Rectangle
+//			DrawRectangle(hdc, rt);
+
+			//TextInputText
+//			TCHAR str[100] = _T("Hello World!");
+//			DrawInputText(hdc, rt, str);
+
+			//STAR
+//			POINT p = { 600, 600 };
+//			DrawStar(hdc, p, 300);
+
+			//PEN
+			/*HPEN pen = CreatePen(PS_DOT, 1, RGB(255, 0, 0));
+			HPEN oldpen = (HPEN)SelectObject(hdc, pen);
+			Ellipse(hdc, 200, 200, 150, 150);
+			SelectObject(hdc, oldpen);
+			DeleteObject(pen);*/
+
+			//Brush
+			//HBRUSH brush, oldbrush;
+			////brush = CreateSolidBrush(RGB(0, 255, 255));
+			//brush = (HBRUSH)GetStockObject(NULL_BRUSH);
+			//oldbrush = (HBRUSH)SelectObject(hdc, brush);
+			//Ellipse(hdc, 10, 10, 150, 150);
+			//SelectObject(hdc, oldbrush);
+			//DeleteObject(brush);
+
+
+			//DirectionKey
+			Reaction_Key(hdc, direction_Key);
+
 
             EndPaint(hWnd, &ps);
 			
+
         }
         break;
     case WM_DESTROY:
@@ -320,7 +367,7 @@ void DrawCircle(HDC hdc, const FLOAT x, const FLOAT y, const FLOAT r)
 	Ellipse(hdc, x - r, y - r, x + r, y + r);
 }
 
-void CircletoCircle(HDC hdc, const FLOAT x, const FLOAT y, const FLOAT R, const int n)
+void DrawSunflower(HDC hdc, const FLOAT x, const FLOAT y, const FLOAT R, const int n)
 {
 	if (n < 3) return;
 	DrawCircle(hdc, x, y, R);
@@ -338,23 +385,78 @@ void CircletoCircle(HDC hdc, const FLOAT x, const FLOAT y, const FLOAT R, const 
 		DrawCircle(hdc, (FLOAT)x + sx, (FLOAT)y - sy, r);
 	}
 
-/*
-	if (n % 2)
-	{
+}
+void DrawRectangle(HDC hdc, const RECT &rt)
+{
+	POINT point[4] = { {rt.left, rt.top}, {rt.right, rt.top},{rt.right, rt.bottom}, {rt.left, rt.bottom} };
+	Polygon(hdc, point, 4);
+}
+void DrawInputText(HDC hdc, RECT rt, TCHAR str[])
+{
+	DrawRectangle(hdc, rt);
+	rt.top += 10;
+	rt.bottom -= 10;
+	rt.left += 10;
+	rt.right -= 10;
 
-	}
-	else
+
+	DrawText(hdc, str, _tcslen(str), &rt, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+	SIZE size;
+
+	GetTextExtentPoint(hdc, str, _tcslen(str), &size);
+	SetCaretPos(size.cx + rt.left, rt.top);
+
+}
+void DrawStar(HDC hdc, const POINT &p, const int R)
+{
+	if (R == 0) return;
+	FLOAT radian = 2 * M_PI / 5;
+	POINT point[10];
+	FLOAT x = p.x, y = p.y, r = R * cos(radian) / cos(radian / 2);
+	for (int i = 0; i < 5; i++)
 	{
-		for (int i = 0; i < n / 2; i++)
+		point[i * 2].x = p.x + R * sin(radian * i);
+		point[i * 2].y = p.y - R * cos(radian * i);
+		point[i * 2 + 1].x = p.x + r * sin((radian / 2) + radian * i);
+		point[i * 2 + 1].y = p.y - r * cos((radian / 2) + radian * i);
+	}
+
+	Polygon(hdc, point, 10);
+	DrawStar(hdc, p, R - 10);
+}
+
+void Reaction_Key(HDC hdc, const int key)
+{
+	const RECT rt = { 400, 0, 700, 600 };
+	long difx = (rt.right - rt.left) / 3, dify = (rt.bottom - rt.top)/3;
+	TCHAR dir[4][10] = { _T("위쪽"), _T("왼쪽") , _T("오른쪽") , _T("아래쪽") };
+	DrawInputText(hdc, RECT{ rt.left + difx, rt.top, rt.right - difx, rt.bottom - 2 * dify,}, dir[0]);
+	DrawInputText(hdc, RECT{ rt.left - 1, rt.top + dify+1, rt.right - 2 * difx - 1, rt.bottom - dify + 1 }, dir[1]);
+	DrawInputText(hdc, RECT{ rt.left + 2 * difx + 1, rt.top + dify + 1, rt.right + 2, rt.bottom - dify + 1}, dir[2]);
+	DrawInputText(hdc, RECT{ rt.left + difx, rt.top + 2 * dify + 2, rt.right - difx, rt.bottom + 2 }, dir[3]);
+	if (key != 0)
+	{
+		HBRUSH brush, oldbrush;
+		brush = CreateSolidBrush(RGB(255, 0, 0));
+		oldbrush = (HBRUSH)SelectObject(hdc, brush);
+		switch (key)
 		{
-			sx = sin(radian * FLOAT(i)) * (FLOAT(R) + r);
-			sy = cos(radian * FLOAT(i)) * (FLOAT(R) + r);
-
-			DrawCircle(hdc, (FLOAT)x + sx, (FLOAT)y - sy, r);
-			DrawCircle(hdc, (FLOAT)x - sx, (FLOAT)y + sy, r);
+		case 1:
+			DrawRectangle(hdc, RECT{ rt.left + difx, rt.top, rt.right - difx, rt.bottom - 2 * dify, });
+			break;
+		case 2:
+			DrawRectangle(hdc, RECT{ rt.left - 1, rt.top + dify + 1, rt.right - 2 * difx - 1, rt.bottom - dify + 1 });
+			break;
+		case 3:
+			DrawRectangle(hdc, RECT{ rt.left + 2 * difx + 1, rt.top + dify + 1, rt.right + 2, rt.bottom - dify + 1 });
+			break;
+		case 4:
+			DrawRectangle(hdc, RECT{ rt.left + difx, rt.top + 2 * dify + 2, rt.right - difx, rt.bottom + 2 });
+			break;
 		}
+		SelectObject(hdc, oldbrush);
+		DeleteObject(brush);
 	}
-*/
-
 
 }

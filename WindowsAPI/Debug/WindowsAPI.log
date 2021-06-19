@@ -1,5 +1,11 @@
 ﻿  WindowsAPI.cpp
-c:\users\admin\source\repos\windowsapi\windowsapi\windowsapi.cpp(137): warning C4101: 'rect' :참조되지 않은 지역 변수입니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\windowsapi.cpp(320): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\windowsapi.cpp(328): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\admin\source\repos\windowsapi\windowsapi\windowsapi.cpp(141): warning C4101: 'rect' :참조되지 않은 지역 변수입니다.
+c:\users\admin\source\repos\windowsapi\windowsapi\windowsapi.cpp(367): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\admin\source\repos\windowsapi\windowsapi\windowsapi.cpp(375): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\admin\source\repos\windowsapi\windowsapi\windowsapi.cpp(414): warning C4305: '초기화 중': 'double'에서 'FLOAT'(으)로 잘립니다.
+c:\users\admin\source\repos\windowsapi\windowsapi\windowsapi.cpp(416): warning C4244: '초기화 중': 'const LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\admin\source\repos\windowsapi\windowsapi\windowsapi.cpp(419): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\admin\source\repos\windowsapi\windowsapi\windowsapi.cpp(420): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\admin\source\repos\windowsapi\windowsapi\windowsapi.cpp(421): warning C4244: '=': 'FLOAT'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\admin\source\repos\windowsapi\windowsapi\windowsapi.cpp(422): warning C4244: '=': 'FLOAT'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   WindowsAPI.vcxproj -> C:\Users\Admin\source\repos\WindowsAPI\Debug\WindowsAPI.exe
