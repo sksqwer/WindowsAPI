@@ -310,7 +310,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				i--;
 			}
 		}
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < Shape_List.size(); i++)
 		{
 			Shape_List[i]->Update(rectview, flag);
 			Shape_List[i]->Radian += M_PI / 180;
@@ -399,7 +399,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		p.x = LOWORD(lParam);
 		p.y = HIWORD(lParam);
 //		c = new CCircle(p, 100, 3, M_PI / 180.0 * (FLOAT(rand() % 360)), CShape::Circle);
-		int n = rand() % 2 + 1;
+		int n = rand() % 3 + 1;
 //		static int n = 2;
 //		static int i = 11;
 		int _size = 100;

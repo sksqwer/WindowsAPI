@@ -32,7 +32,7 @@ public:
 	FLOAT getx() { return x; }
 	FLOAT gety() { return y; }
 	void setx(FLOAT x) { this->x = x; }
-	void sety(FLOAT x) { this->y = y; }
+	void sety(FLOAT y) { this->y = y; }
 	void setp(Point p) { pos = p; }
 	virtual void Collision(const RECT&) {}
 	virtual void Collision(std::vector<CShape *>&, int&, int&) {}
