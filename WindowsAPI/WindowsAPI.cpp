@@ -7,6 +7,17 @@
 #include "WindowsAPI.h"
 #include <tchar.h>
 #include <cmath>
+#include <ctime>
+#include <stdlib.h>
+#include <list>
+#include <vector>
+#include <string>
+#include <stdio.h>
+#include <commdlg.h>
+
+// Custom header
+#include "CShape.h"
+
 
 #define MAX_LOADSTRING 100
 
@@ -135,16 +146,61 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 //
 //
+void OuFromFile(TCHAR filename[], HWND hWnd)
+{
+	FILE *fPtr;
+	HDC hdc;
+	int line;
+	TCHAR buffer[500];
+	line = 0;
+	hdc = GetDC(hWnd);
+#ifdef _UNICODE
+	_tfopen_s(&fPtr, filename, _T("r, ccs = UNICODE"));
+#else
+	_tfopen_s(&fPtr, filename, _T("r"));
+#endif
+	while (_fgetts(buffer, 100, fPtr) != NULL)
+	{
+		if (buffer[_tcslen(buffer) - 1] == _T('\n'))
+			buffer[_tcslen(buffer) - 1] = NULL;
+		TextOut(hdc, 0, line * 20, buffer, _tcslen(buffer));
+		line++;
+	}
+	fclose(fPtr);
+	ReleaseDC(hWnd, hdc);
+}
+
+
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	//대화상자 색깔
+	CHOOSECOLOR COLOR;
+	static COLORREF tmp[16], color;
+	HBRUSH hBrush, OldBrush;
+	int i;
+
+	//열기 대화상자
+	OPENFILENAME OFN;
+	TCHAR str[100], lpstrFile[100] = _T("");
+	TCHAR filter[] = _T("Every File(*,*) \0*.*\0Text File\0*.txt;*.doc\0");
+
 	const int str_size = 1000;
-	RECT rect;
+	static RECT rect;
+	static RECT rectview;
 	static bool bKeyDown = false;
-	static TCHAR str[str_size];
+//	static TCHAR str[str_size];
 	static int count = 0, pre;
 	static int pos_x = 0, pos_y = 0;
 	static SIZE size;
 	static int direction_Key = 0;
+	static int Velocity = 1;
+	static int R, G, B;
+	static int Click = 0;
+	static POINT p;
+	static std::vector<CShape *> Shape_List;
+	static CShape *c;
+	static int flag = 1;
 
     switch (message)
     {
@@ -154,9 +210,67 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             // 메뉴 선택을 구문 분석합니다:
             switch (wmId)
             {
+			case ID_FILEOPEN:
+			{
+				memset(&OFN, 0, sizeof(OPENFILENAME));
+				OFN.lStructSize = sizeof(OPENFILENAME);
+				OFN.hwndOwner = hWnd;
+				OFN.lpstrFilter = filter;
+				OFN.lpstrFile = lpstrFile;
+				OFN.nMaxFile = 256;
+				OFN.lpstrInitialDir = _T(".");
+				if (GetOpenFileName(&OFN) != 0)
+				{
+					_stprintf_s(str, _T("%s 파일을 열겠습니까?"), OFN.lpstrFile);
+					int n = MessageBox(hWnd, str, _T("열기 선택"), MB_YESNO);
+					if(n == IDYES)
+						OuFromFile(OFN.lpstrFile, hWnd);
+				}
+			}
+				break;
+			case ID_COLORDLG:
+			{
+				for (i = 0; i < 16; i++)
+					tmp[i] = RGB(rand() % 256, rand() % 256, rand() % 256);
+				memset(&COLOR, 0, sizeof(CHOOSECOLOR));
+				COLOR.lStructSize = sizeof(CHOOSECOLOR);
+				COLOR.hwndOwner = hWnd;
+				COLOR.lpCustColors = tmp;
+				COLOR.Flags = CC_FULLOPEN;
+				if (ChooseColor(&COLOR) != 0)
+				{
+					color = COLOR.rgbResult;
+					InvalidateRect(hWnd, NULL, true);
+
+				}
+			}
+			break;
             case IDM_ABOUT:
                 DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
                 break;
+			case Func_1:
+			{
+				int ans = MessageBox(hWnd, _T("기본 작동 기능1 선택했습니다."), _T("기능 선택"), MB_YESNOCANCEL);
+			switch (ans)
+			{
+			case IDYES:
+				MessageBox(hWnd, _T("YES버튼 선택"), _T("확인"), MB_OK);
+				break;
+			case IDNO:
+				MessageBox(hWnd, _T("NO버튼 선택"), _T("확인"), MB_OK);
+				break;
+			case IDCANCEL:
+				MessageBox(hWnd, _T("CANCEL버튼 선택"), _T("확인"), MB_OK);
+				break;
+			}
+			}
+				break;
+			case Func_2:
+				DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+				break;
+			case Func_3:
+				DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+				break;
             case IDM_EXIT:
                 DestroyWindow(hWnd);
                 break;
@@ -167,51 +281,102 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
 	case WM_CREATE:
 		{
+			GetClientRect(hWnd, &rectview);
+			pos_x = 1200;
+			pos_y = 600;
 			int breakPoint = 999;
+			SetTimer(hWnd, 1, 1, NULL);
 
 //			CreateCaret(hWnd, NULL, 15, 15);
 //			ShowCaret(hWnd);
 		}
 		break;
+	case WM_TIMER:
+	{
+		int size = Shape_List.size();
+		for (int i = 0; i < Shape_List.size(); i++)
+		{
+			for (int j = i + 1; j < Shape_List.size(); j++)
+			{
+				Shape_List[i]->Collision(Shape_List, i, j);
+			}
+		}
+		for (int i = 0; i < Shape_List.size(); i++)
+		{
+			if (Shape_List[i]->_delete)
+			{
+				delete Shape_List[i];
+				Shape_List.erase(Shape_List.begin() + i);
+				i--;
+			}
+		}
+		for (int i = 0; i < size; i++)
+		{
+			Shape_List[i]->Update(rectview, flag);
+			Shape_List[i]->Radian += M_PI / 180;
+			if (Shape_List[i]->Radian >= 2 * M_PI)
+				Shape_List[i]->Radian = 0;
+		}
+		
+
+		InvalidateRect(hWnd, NULL, true);
+	}
+	break;
+	case WM_SIZE:
+	{
+		int breakPoint = 999;
+	}
+	break;
 	case WM_KEYDOWN:
 		{
 
-		if (wParam == VK_UP)
-			direction_Key = 1;
-		else if (wParam == VK_LEFT)
-			direction_Key = 2;
-		else if (wParam == VK_RIGHT)
-			direction_Key = 3;
-		else if (wParam == VK_DOWN)
-			direction_Key = 4;
-		else
-			direction_Key = 0;
+		if (wParam == '1')
+			flag = 1;
+		else if (wParam == '2')
+			flag = 2;
+		else if (wParam == '3')
+			flag = 3;
 
-		InvalidateRect(hWnd, NULL, true);
+		/*if (wParam == VK_UP)
+		{
+			if(rectview.top < pos_y - 100 - Velocity)
+				pos_y -= Velocity;
+			bKeyDown = true;
+		}
+		else if (wParam == VK_LEFT)
+		{
+			if (rectview.left < pos_x - 100 - Velocity)
+				pos_x -= Velocity;
+			bKeyDown = true;
+
+		}
+		else if (wParam == VK_RIGHT)
+		{
+			if (rectview.right > pos_x + 100 + Velocity)
+				pos_x += Velocity;
+			bKeyDown = true;
+
+		}
+		else if (wParam == VK_DOWN)
+		{
+			if (rectview.bottom > pos_y + 100 + Velocity)
+				pos_y += Velocity;
+			bKeyDown = true;
+
+		}*/
+
+	
+
+//		if (wParam == VK_RIGHT) SetTimer(hWnd, 1, 70, NULL);
+
+
+		//InvalidateRect(hWnd, NULL, true);
 
 		}
 		break;
 	case WM_CHAR:
 		{
-			/*pre = count;
-			bKeyDown = true;
-			if (wParam == VK_BACK && count > 0)
-				count--;
-			else if (wParam != VK_BACK && count < str_size)
-				str[count++] = wParam;
-			else if (wParam == VK_RETURN)
-			{
-				if (count == str_size - 1) break;
-				str[count++] = '\n';
-				str[count] = NULL;
-			}
-			else
-			{
-				if (count == str_size - 1) break;
-				str[count++] = wParam;
-				str[count] = NULL;
-			}
-			str[count] = NULL;*/
+			
 
 
 			
@@ -219,94 +384,125 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_KEYUP:
 	{
+		bKeyDown = false;
+		Velocity = 1;
 		/*for(int i = pre; i < count; i++)
 			str[i] = ' ';*/
 		direction_Key = 0;
 		InvalidateRect(hWnd, NULL, true);
 	}
 		break;
+	case WM_LBUTTONDOWN:
+	{
+		Click = 1;
+		Point p;
+		p.x = LOWORD(lParam);
+		p.y = HIWORD(lParam);
+//		c = new CCircle(p, 100, 3, M_PI / 180.0 * (FLOAT(rand() % 360)), CShape::Circle);
+//		int n = rand() % 3 + 1;
+		static int n = 2;
+//		static int i = 11;
+		int _size = 100;
+//		n %= 2;
+//		n++;
+		switch (n)
+		{
+		case 1:
+			c = new CCircle(p, rand() % 2 * -1, rand() % 2 * 1, _size / 2, CShape::Circle);
+//			c = new CCircle(p, 0,i,50 , CShape::Circle);
+//			i -= 10;
+			break;
+		case 2:
+			c = new CRectangle(p, rand() % 2 + 1, rand() % 2 + 1, _size, _size, CShape::Rectangle);
+			break;
+		case 3:
+			c = new CStar(p, rand() % 2 + 1, rand() % 2 + 1, _size / 2, CShape::Star);
+			break;
+		default:
+			break;
+		}
+		Shape_List.push_back(c);
+		InvalidateRect(hWnd, NULL, true);
+	}
+	break;
+	case WM_RBUTTONDOWN:
+	{
+
+
+		InvalidateRect(hWnd, NULL, true);
+	}
+	break;
+	case WM_RBUTTONUP:
+		Click = 0;
+		break;
+	case WM_LBUTTONUP:
+		Click = 0;
+		break;
+	case WM_MOUSEMOVE:
+	{
+		//if (Click > 0)
+		//{
+		//	pos_x = LOWORD(lParam);
+		//	pos_y = HIWORD(lParam);
+		//	InvalidateRect(hWnd, NULL, true);
+		//}
+	}
+	break;
     case WM_PAINT:
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
-/*GetDC 사용
-			HDC hdc2 = GetDC(hWnd);
+			//대화상자 샊깔
+			hBrush = CreateSolidBrush(color);
+			OldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+//			Ellipse(hdc, 10, 10, 200, 200);
+			SelectObject(hdc, OldBrush);
+			DeleteObject(hBrush);
 
-			ReleaseDC(hWnd, hdc2);
-*/
-			//Text 출력
-			/*TextOut(hdc, 100, 100, _T("Hello World!"), _tcslen(_T("Hello World")));
 
-			rect.left = 50;
-			rect.top = 50;
-			rect.right = 200;
-			rect.bottom = 120;
-			SetTextColor(hdc, RGB(255, 0, 0));
-			DrawText(hdc, _T("Hello Wolrd"), _tcslen(_T("Hello World")), &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
-*/
-//			SetTextColor(hdc, RGB(0, 0, 0));
-			//키 입력 출력
-/*			if (bKeyDown)
-			{
-				RECT rt = { 0,0,400,400 };
-				DrawText(hdc, str, _tcslen(str), &rt, DT_TOP | DT_LEFT);
-			}*/
-//				TextOut(hdc, pos_x, pos_y, str, _tcslen(str));
+
+
+//			HBRUSH brush, oldbrush;
+			int i = 0;
+			//for (auto itr = Shape_List.begin(); itr != Shape_List.end(); itr++)
+			//	(*itr)->Show(hdc);
 			
-			//Caret
-			/*GetTextExtentPoint(hdc, str, _tcslen(str), &size);
-			TextOut(hdc, 0, 0, str, _tcslen(str));
-			SetCaretPos(size.cx, 0);*/
+			TCHAR t[10] = { 0 };
+			TCHAR(flag) + '0';
+			_itot_s(flag, t, 10);
 
-			//격자출력
-/*			RECT rt = { 50,50,250,250 };
-			DrawGrid(hdc, rt, 10);*/
+			for (int i = 0; i < Shape_List.size(); i++)
+				Shape_List[i]->Show(hdc);
+			TextOut(hdc, 100, 100, t, _tcslen(t));
+			/*if(bKeyDown)
+			{
+				R = (rand() + rand()) % 256; G = (rand() + rand()) % 256; B = (rand() + rand()) % 256;
 
-			////원출력
-			//DrawCircle(hdc, 600, 600, 100);
-
-			//원-원 출력
-//			DrawSunflower(hdc, 400, 400, 100, 36);
-
-			//Rectangle
-//			DrawRectangle(hdc, rt);
-
-			//TextInputText
-//			TCHAR str[100] = _T("Hello World!");
-//			DrawInputText(hdc, rt, str);
-
-			//STAR
-//			POINT p = { 600, 600 };
-//			DrawStar(hdc, p, 300);
-
-			//PEN
-			/*HPEN pen = CreatePen(PS_DOT, 1, RGB(255, 0, 0));
-			HPEN oldpen = (HPEN)SelectObject(hdc, pen);
-			Ellipse(hdc, 200, 200, 150, 150);
-			SelectObject(hdc, oldpen);
-			DeleteObject(pen);*/
-
-			//Brush
-			//HBRUSH brush, oldbrush;
-			////brush = CreateSolidBrush(RGB(0, 255, 255));
+				brush = CreateSolidBrush(RGB(R + G, G, B));
+				oldbrush = (HBRUSH)SelectObject(hdc, brush);
+				DrawCircle(hdc, pos_x, pos_y, 100);
+				SelectObject(hdc, oldbrush);
+				DeleteObject(brush);
+			}
+			else
+			{
+				brush = (HBRUSH)GetStockObject(NULL_BRUSH);
+				oldbrush = (HBRUSH)SelectObject(hdc, brush);
+				DrawCircle(hdc, pos_x, pos_y, 100);
+				SelectObject(hdc, oldbrush);
+				DeleteObject(brush);
+			}
+*/
 			//brush = (HBRUSH)GetStockObject(NULL_BRUSH);
-			//oldbrush = (HBRUSH)SelectObject(hdc, brush);
-			//Ellipse(hdc, 10, 10, 150, 150);
-			//SelectObject(hdc, oldbrush);
-			//DeleteObject(brush);
 
-
-			//DirectionKey
-			Reaction_Key(hdc, direction_Key);
-
-
-            EndPaint(hWnd, &ps);
+			EndPaint(hWnd, &ps);
 			
 
         }
         break;
     case WM_DESTROY:
+		KillTimer(hWnd, 1);
 		HideCaret(hWnd);
 		DestroyCaret();
         PostQuitMessage(0);
@@ -363,7 +559,6 @@ void DrawGrid(HDC hdc, const RECT & rt, int rc)
 
 void DrawCircle(HDC hdc, const FLOAT x, const FLOAT y, const FLOAT r)
 {
-
 	Ellipse(hdc, x - r, y - r, x + r, y + r);
 }
 
