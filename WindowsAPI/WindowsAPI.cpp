@@ -399,8 +399,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		p.x = LOWORD(lParam);
 		p.y = HIWORD(lParam);
 //		c = new CCircle(p, 100, 3, M_PI / 180.0 * (FLOAT(rand() % 360)), CShape::Circle);
-//		int n = rand() % 3 + 1;
-		static int n = 2;
+		int n = rand() % 2 + 1;
+//		static int n = 2;
 //		static int i = 11;
 		int _size = 100;
 //		n %= 2;
@@ -408,7 +408,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (n)
 		{
 		case 1:
-			c = new CCircle(p, rand() % 2 * -1, rand() % 2 * 1, _size / 2, CShape::Circle);
+			c = new CCircle(p, rand() % 2 * +1, rand() % 2 + 1, _size / 2, CShape::Circle);
 //			c = new CCircle(p, 0,i,50 , CShape::Circle);
 //			i -= 10;
 			break;

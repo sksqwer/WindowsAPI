@@ -100,7 +100,7 @@ void CCircle::Collision(std::vector<CShape *> &v, int &i, int &j)
 
 void CCircle::Show(HDC &hdc)
 {
-	Ellipse(hdc, pos.x - R, pos.x - R, pos.x + R, pos.x + R);
+	Ellipse(hdc, pos.x - R, pos.y - R, pos.x +R, pos.y + R);
 }
 
 void CRectangle::Collision(const RECT &rt)
@@ -189,12 +189,13 @@ void CRectangle::Collision(std::vector<CShape*> &v, int &i, int &j)
 		}
 
 		FLOAT v1x = p1[1].x - p1[0].x, v1y = p1[1].y - p1[0].y;
-		FLOAT v2x = -1 * v1y, v2y = v1x;
+//		FLOAT v2x = -1 * v1y, v2y = v1x;
+		FLOAT v2x = p1[3].x - p1[0].x, v2y = p1[3].y - p1[0].y;
 		FLOAT pv1 = sqrt(pow(v1x, 2) + pow(v1y, 2));
 		FLOAT pv2 = sqrt(pow(v2x, 2) + pow(v2y, 2));
 		v1x /= pv1; v1y /= pv1;
 		v2x /= pv2; v2y /= pv2;
-//		FLOAT v2x = p1[3].x - p1[0].x, v2y = p1[3].y - p1[0].y;
+		
 
 		for (int i = 0; i < 4; i++)
 		{
@@ -203,7 +204,7 @@ void CRectangle::Collision(std::vector<CShape*> &v, int &i, int &j)
 			FLOAT innerx = dx * v1x + dy * v1y;
 			FLOAT innery = dx * v2x + dy * v2y;
 
-			if (innerx >= 0 && innerx <= width * 0.5 && innery >= 0 && innery <= width * 0.5)
+			if (innerx >= 0 && innerx <= width&& innery >= 0 && innery <= width)
 			{
 				ch = true;
 				break;
@@ -215,12 +216,12 @@ void CRectangle::Collision(std::vector<CShape*> &v, int &i, int &j)
 		if (!ch)
 		{
 			v1x = p2[1].x - p2[0].x, v1y = p2[1].y - p2[0].y;
-			v2x = -1 * v1y, v2y = v1x;
+			//v2x = -1 * v1y, v2y = v1x;
+			v2x = p2[3].x - p2[0].x, v2y = p2[3].y - p2[0].y;
 			pv1 = sqrt(pow(v1x, 2) + pow(v1y, 2));
 			pv2 = sqrt(pow(v2x, 2) + pow(v2y, 2));
 			v1x /= pv1; v1y /= pv1;
 			v2x /= pv2; v2y /= pv2;
-//			v2x = p2[3].x - p2[0].x, v2y = p2[3].y - p2[0].y;
 
 			for (int i = 0; i < 4; i++)
 			{
@@ -229,7 +230,7 @@ void CRectangle::Collision(std::vector<CShape*> &v, int &i, int &j)
 				FLOAT innerx = dx * v1x + dy * v1y;
 				FLOAT innery = dx * v2x + dy * v2y;
 
-				if (innerx >= 0 && innerx <= width * 0.5 && innery >= 0 && innery <= width * 0.5)
+				if (innerx >= 0 && innerx <= width && innery >= 0 && innery <= width)
 				{
 					ch = true;
 					break;
@@ -284,7 +285,14 @@ void CRectangle::Collision(std::vector<CShape*> &v, int &i, int &j)
 		FLOAT right = pos.x + (width * 0.5);
 		FLOAT top = pos.y - (height * 0.5);
 		FLOAT bottom = pos.y + (height * 0.5);
-		FLOAT p[4][2][2] = { {{left,top}, {right, top}},{{right, top}, {right, bottom}}, { {right, bottom}, {left, bottom}}, {{left, bottom}, {left,top}} };
+		Point p[4][2] = { {{left,top}, {right, top}},{{right, top}, {right, bottom}}, { {right, bottom}, {left, bottom}}, {{left, bottom}, {left,top}} };
+
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 2; j++)
+				p[i][j] = Rotate(pos, p[i][j], Radian);
+		}
+
 		FLOAT v1x, v1y, v2x, v2y, v3x,v3y;
 		bool ch = false;
 		Point cp = c->getp();
@@ -294,10 +302,10 @@ void CRectangle::Collision(std::vector<CShape*> &v, int &i, int &j)
 
 		for (int i = 0; i < 4; i++)
 		{
-			v1x = p[i][1][0] - p[i][0][0];
-			v1y = p[i][1][1] - p[i][0][1];
-			v2x = cp.x - p[i][0][0];
-			v2y = cp.y - p[i][0][1];
+			v1x = p[i][1].x - p[i][0].x;
+			v1y = p[i][1].y - p[i][0].y;
+			v2x = cp.x - p[i][0].x;
+			v2y = cp.y - p[i][0].y;
 
 			v1x /= width;
 			v1y /= width;
@@ -312,7 +320,7 @@ void CRectangle::Collision(std::vector<CShape*> &v, int &i, int &j)
 			{
 				if (inner > width)
 				{
-					dis = sqrt(pow(p[i][1][0] - cp.x, 2) + pow(p[i][1][1] - cp.y, 2));
+					dis = sqrt(pow(p[i][1].x - cp.x, 2) + pow(p[i][1].y - cp.y, 2));
 					if(dis <= c->getR())
 						ch = true;
 					else
@@ -365,12 +373,11 @@ void CRectangle::Collision(std::vector<CShape*> &v, int &i, int &j)
 
 				FLOAT len = sqrt(pow(pos.x - cp.x, 2) + pow(pos.y - cp.y, 2));
 				FLOAT d = ((width * 0.5 * sqrt(2) + c->getR()) - len) * 0.5;
-				pos.x += d * nx;
-				pos.y += d * ny;
-				cp.x += (c->getx() - d * nx);
-				cp.y += (c->gety() - d * ny);
-
-				c->setp(cp);
+//				pos.x += d * nx;
+//				pos.y += d * ny;
+//				cp.x += (c->getx() - d * nx);
+//				cp.y += (c->gety() - d * ny);
+//				c->setp(cp);
 
 
 			}
