@@ -1,67 +1,20 @@
-﻿  CShape.cpp
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(63): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(65): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(68): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(69): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(71): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(72): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(103): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(108): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(109): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(110): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(111): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(112): warning C4838: 'FLOAT'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(112): warning C4244: '초기화 중': 'FLOAT'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(121): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(122): warning C4101: 'len' :참조되지 않은 지역 변수입니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(171): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(172): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(173): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(174): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(182): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(183): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(184): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(185): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(215): warning C4244: '-=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(217): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(293): warning C4244: '-=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(295): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(377): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(418): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(419): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(420): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(421): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(512): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(561): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(562): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(563): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(564): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(652): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(675): warning C4244: '인수': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(201): warning C4101: 'len' :참조되지 않은 지역 변수입니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(169): warning C4101: 'dis_y' :참조되지 않은 지역 변수입니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(169): warning C4101: 'dis_x' :참조되지 않은 지역 변수입니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(692): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(693): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(694): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(695): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(696): warning C4838: 'int'에서 'FLOAT'(으)로의 변환에는 축소 변환이 필요합니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(696): warning C4244: '초기화 중': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(702): warning C4244: '=': 'FLOAT'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(703): warning C4244: '=': 'FLOAT'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(748): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(750): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(753): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(754): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(756): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(757): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(787): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(789): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(792): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(793): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(795): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(796): warning C4244: '=': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(846): warning C4305: '초기화 중': 'double'에서 'FLOAT'(으)로 잘립니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(879): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\admin\source\repos\windowsapi\windowsapi\cshape.cpp(880): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  WindowsAPI.vcxproj -> C:\Users\Admin\source\repos\WindowsAPI\Debug\WindowsAPI.exe
+﻿  WindowsAPI.cpp
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(297): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(299): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(304): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(313): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(315): warning C4305: '+=': 'double'에서 'FLOAT'(으)로 잘립니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(421): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(426): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(429): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(443): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(488): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(575): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(583): warning C4244: '초기화 중': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(622): warning C4305: '초기화 중': 'double'에서 'FLOAT'(으)로 잘립니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(624): warning C4244: '초기화 중': 'const LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(627): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(628): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(629): warning C4244: '=': 'FLOAT'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sksqw\documents\github\windowsapi\windowsapi\windowsapi.cpp(630): warning C4244: '=': 'FLOAT'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  WindowsAPI.vcxproj -> C:\Users\sksqw\Documents\GitHub\WindowsAPI\Debug\WindowsAPI.exe

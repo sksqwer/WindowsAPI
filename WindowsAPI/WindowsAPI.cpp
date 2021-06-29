@@ -337,6 +337,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			flag = 2;
 		else if (wParam == '3')
 			flag = 3;
+		else if (wParam == '4')
+			flag = 4;
 
 		/*if (wParam == VK_UP)
 		{
@@ -400,25 +402,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		p.x = LOWORD(lParam);
 		p.y = HIWORD(lParam);
 //		c = new CCircle(p, 100, 3, M_PI / 180.0 * (FLOAT(rand() % 360)), CShape::Circle);
-//		int n = rand() % 3 + 1;
-		static int n = 2;
+		int n = rand() % 3 + 1;
+//		static int n = 2;
 //		static int i = 11;
-		int _size = 100;
-		int power = 2;
+		int _size = 50;
+		int power = 4;
+		int d1, d2;
+		d1 = rand() % 2; d2 = rand() % 2;
+		if (d1) d1 = 1;
+		else d1 = -1;
+		if (d2) d2 = 1;
+		else d2 = -1;
 //		n %= 2;
 //		n++;
 		switch (n)
 		{
 		case 1:
-			c = new CCircle(p, rand() % power * +1, rand() % power + 1, _size / 2, CShape::Circle);
+			c = new CCircle(p, (rand() % power * +1) * d1, (rand() % power + 1) * d2, _size / 2, CShape::Circle);
 //			c = new CCircle(p, 0,i,50 , CShape::Circle);
 //			i -= 10;
 			break;
 		case 2:
-			c = new CRectangle(p, rand() % power + 1, rand() % power + 1, _size, _size, CShape::Rectangle);
+			c = new CRectangle(p, (rand() % power * +1) * d1, (rand() % power + 1) * d2,_size,  _size, CShape::Rectangle);
 			break;
 		case 3:
-			c = new CStar(p, rand() % power + 1, rand() % power + 1, _size / 2, CShape::Star);
+			c = new CStar(p, (rand() % power * +1) * d1, (rand() % power + 1) * d2, _size / 2, CShape::Star);
 			break;
 		default:
 			break;
@@ -474,7 +482,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			//	(*itr)->Show(hdc);
 			
 			TCHAR t[10] = { 0 };
-			TCHAR(flag) + '0';
+//			TCHAR(flag) + '0';
 			_itot_s(flag, t, 10);
 
 			for (int i = 0; i < Shape_List.size(); i++)

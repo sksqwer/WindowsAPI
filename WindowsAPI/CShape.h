@@ -50,6 +50,7 @@ public:
 	void Collision(std::vector<CShape *>&, int& ,int&);
 	void Show(HDC &);
 	FLOAT getR() { return R; }
+	void setR(FLOAT r) { R = r; }
 };
 
 class CRectangle : public CShape
