@@ -781,7 +781,7 @@ void CStar::Collision(std::vector<CShape*>& v, int &i, int &j)
 					_delete = true;
 					if (c->getR() >= 45)
 					{
-						_delete = true;
+						c->_delete = true;
 					}
 				}
 				break;
@@ -792,7 +792,7 @@ void CStar::Collision(std::vector<CShape*>& v, int &i, int &j)
 					_delete = true;
 					if (c->getR() <= 5)
 					{
-						_delete = true;
+						c->_delete = true;
 					}
 				}
 				case 4:
